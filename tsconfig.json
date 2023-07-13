@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+//    Comply to expected usage node parser.js --input ./app.log --output ./errors.json ???
+//    "outDir": "./dist",
+//    "baseUrl": "./",
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false
+  }
+}
