@@ -9,7 +9,8 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "start:dev": "tsc && node parser.js"
+    "start:dev": "tsc && node parser.js",
+    "test": "tsc && node --test"
   },
   "devDependencies": {
     "@types/node": "^20.4.2",

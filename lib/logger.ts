@@ -1,5 +1,4 @@
 import { WriteStream } from 'tty';
-import { ParseLogResult } from './types';
 
 export class Logger {
   out: WriteStream;
@@ -22,8 +21,8 @@ export class Logger {
     this.out.write(`${usage}\n\n${options}\n`);
   }
 
-  public printParseLogResult(result: ParseLogResult): void {
-    this.out.write(`Result: Found ${result.foundLogsTotal} log records including ${result.foundErrLogs} errors\n`);
+  public printParseLogResult(result: number): void {
+    this.out.write(`Result: Found ${result} error level log records\n`);
   }
 
   public printError(msg: string) {

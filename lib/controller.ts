@@ -1,17 +1,14 @@
 import { parseArgs, ParseArgsConfig } from 'util';
-import { ParseLogArgs, ParseLogResult } from './types';
-
-interface ErrorHandler {
-  onValidationError(err: Error): void,
-}
-
-interface LogHandler {
-  parseLog(inputFilePath: string, outputFilePath: string): Promise<ParseLogResult>
-}
+import { ParseLogArgs } from './types';
+import {
+  LogInputFile, LogOutputFile, LogHandler, ErrorHandler,
+} from './interfaces';
 
 type ControllerCtx = {
   errorHandler: ErrorHandler,
   logHandler: LogHandler,
+  logInputFile: LogInputFile,
+  logOutputFile: LogOutputFile,
 };
 
 export class Controller {
@@ -19,11 +16,17 @@ export class Controller {
 
   private readonly logHandler: LogHandler;
 
+  private readonly logInputFile: LogInputFile;
+
+  private readonly logOutputFile: LogOutputFile;
+
   private readonly args: string[];
 
   constructor(ctx: ControllerCtx, args = process.argv.slice(2)) {
     this.errorHandler = ctx.errorHandler;
     this.logHandler = ctx.logHandler;
+    this.logInputFile = ctx.logInputFile;
+    this.logOutputFile = ctx.logOutputFile;
     this.args = args;
   }
 
@@ -44,8 +47,12 @@ export class Controller {
     }
   }
 
-  public async parseLog(): Promise<ParseLogResult> {
+  public async parseLogFileErrToJson(): Promise<number> {
     const { input, output } = this.getParseLogArgs();
-    return this.logHandler.parseLog(input, output);
+    this.logInputFile.setInputFilePath(input);
+    this.logOutputFile.setOutputFilePath(output);
+    this.logHandler.setLogInput(this.logInputFile);
+    this.logHandler.setLogOutput(this.logOutputFile);
+    return this.logHandler.parseErrorLogs();
   }
 }

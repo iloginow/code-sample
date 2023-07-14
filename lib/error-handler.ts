@@ -1,7 +1,4 @@
-interface Logger {
-  printValidationError(msg: string): void;
-  printError(msg: string): void;
-}
+import { Logger } from './interfaces';
 
 type ErrorHandlerContext = {
   logger: Logger,
@@ -19,7 +16,7 @@ export class ErrorHandler {
     process.exit(1);
   }
 
-  public onUnexpectedError(err: Error): void {
+  public onGenericError(err: Error): void {
     this.logger.printError(err.message);
     process.exit(1);
   }
