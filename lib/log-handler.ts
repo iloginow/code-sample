@@ -1,4 +1,3 @@
-import { ParseLogResult } from './types';
 import { LogRecord } from './log-record';
 import { LogInput, LogOutput } from './interfaces';
 
@@ -26,11 +25,11 @@ export class LogHandler {
 
   public async parseErrorLogs(): Promise<number> {
     const recordStrings = await this.logInput.read();
-    const logRecords = recordStrings.map((str) => new LogRecord(str));
-    const validErrLogRecords = logRecords
-      .filter((record) => record.isValid && record.isErrorLevel);
-    const validResults = validErrLogRecords.map((record) => record.parseLogResult);
-    await this.logOutput.write(validResults);
-    return validErrLogRecords.length;
+    const logRecords = recordStrings
+      .map((str) => new LogRecord(str))
+      .filter((record) => record.isValid && record.isErrorLevel)
+      .map((record) => record.parseLogResult);
+    await this.logOutput.write(logRecords);
+    return logRecords.length;
   }
 }
